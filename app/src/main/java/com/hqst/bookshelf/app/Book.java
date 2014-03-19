@@ -4,12 +4,15 @@ package com.hqst.bookshelf.app;
  * Created by ahkj on 19/03/14.
  */
 public class Book {
+    private long mId;
     private String mTitle;
     private String mAuthor;
+    private int pages;
 
-    public Book(String title, String author) {
-        mTitle = title;
-        mAuthor = author;
+    private Book() {}
+
+    public Book(long id) {
+        mId = id;
     }
 
     public String getAuthor() {
@@ -26,6 +29,18 @@ public class Book {
 
     public void setTitle(String title) {
         mTitle = title;
+    }
+
+    public int getPages() {
+        return pages;
+    }
+
+    public void setPages(int pages) {
+        this.pages = pages;
+    }
+
+    public long getId() {
+        return mId;
     }
 
     @Override
