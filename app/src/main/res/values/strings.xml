@@ -7,5 +7,7 @@
     <string name="button_new_book">New book</string>
     <string name="edittext_hint_search_books">Search books...</string>
     <string name="button_search">Search</string>
+    <string name="textView_create_book_header">Please enter details for the new boook</string>
+    <string name="button_submit">Submit</string>
 
 </resources>

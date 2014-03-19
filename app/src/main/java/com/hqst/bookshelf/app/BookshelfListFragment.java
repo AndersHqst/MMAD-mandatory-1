@@ -1,5 +1,7 @@
 package com.hqst.bookshelf.app;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -9,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListAdapter;
@@ -21,6 +24,7 @@ import java.util.ArrayList;
  */
 public class BookshelfListFragment extends Fragment {
     private static final String TAG = BookshelfListFragment.class.getName().toString();
+    private static final int REQUEST_CODE_CREATE_BOOK = 1;
 
     Button mNewBookButton;
     Button mSearchButton;
@@ -41,7 +45,8 @@ public class BookshelfListFragment extends Fragment {
         mNewBookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i(TAG, "Create new book");
+                Intent intent = new Intent(getActivity(), CreateBookActivity.class);
+                startActivityForResult(intent, REQUEST_CODE_CREATE_BOOK);
             }
         });
 
@@ -75,5 +80,19 @@ public class BookshelfListFragment extends Fragment {
         ListAdapter adapter = new ArrayAdapter<Book>(getActivity(), android.R.layout.simple_list_item_1, mBooks);
         mList.setAdapter(adapter);
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.i(TAG, "onActivityResult");
+        if(requestCode == REQUEST_CODE_CREATE_BOOK){
+            if(resultCode == Activity.RESULT_OK){
+                // Should be the cursor adapter requerying the db
+                ((BaseAdapter)mList.getAdapter()).notifyDataSetChanged();
+            }
+        }
+        else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 }
