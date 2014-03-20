@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 
 /**
  * Created by ahkj on 22/02/14.
+ * Code snippet is taken from the big nerd ranch book.
  */
 public abstract class SingleFragmentActivity extends FragmentActivity{
     protected abstract Fragment createFragment();

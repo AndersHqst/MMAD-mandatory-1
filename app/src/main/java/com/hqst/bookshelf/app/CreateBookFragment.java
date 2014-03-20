@@ -21,7 +21,7 @@ import android.widget.Toast;
  */
 public class CreateBookFragment extends Fragment {
 
-    private static final String TAG = CreateBookFragment.class.getName().toString();
+    private static final String TAG = CreateBookFragment.class.toString();
 
     EditText mTitleEditText;
     EditText mAuthorEditText;
@@ -31,14 +31,9 @@ public class CreateBookFragment extends Fragment {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_create_book, container, false);
+        getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // Show back carret for parent activity if it exists
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB){
-            if(NavUtils.getParentActivityName(getActivity()) != null){
-                getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
-            }
-        }
+        View view = inflater.inflate(R.layout.fragment_create_book, container, false);
 
         mTitleEditText = (EditText)view.findViewById(R.id.editText_create_book_title);
         mAuthorEditText = (EditText)view.findViewById(R.id.editText_create_book_author);
@@ -48,12 +43,15 @@ public class CreateBookFragment extends Fragment {
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i(TAG, "New book: "
-                        + mTitleEditText.getText().toString() + " "
-                + mAuthorEditText.getText().toString() + " "
-                + mPagesEditText.getText().toString());
 
-                Toast.makeText(getActivity(), "New book created", Toast.LENGTH_SHORT).show();
+                Book book = Book.create(getActivity());
+                book.setTitle(mTitleEditText.getText().toString());
+                book.setAuthor(mAuthorEditText.getText().toString());
+                String pages = mPagesEditText.getText().toString();
+                book.setPages(Integer.valueOf(pages));
+                book.save(getActivity());
+
+                Toast.makeText(getActivity(), getString(R.string.toast_book_created), Toast.LENGTH_SHORT).show();
 
                 // Pop activity
                 // Send result about book having been created
